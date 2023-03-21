@@ -3,13 +3,78 @@
     height: 520px;
     background-image: url("https://synthetix.com/wp-content/uploads/2021/06/synthetix-kb_hero.svg");
     background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form-container h1 {
+    color: white;
+    font-size: 50px;
+    font-weight: 500;
+}
+
+.search-container {
+    width: 70%;
+    max-width: 800px;
+    align-items: center;
+    display: flex;
+    flex-direction: row-reverse;
+    background-color: white;
+    border-radius: 40px;
+    border: solid 2px #fff
 }
 
 .search-input {
-    width: 50%;
+    width: 100%;
+    border: 0;
+    outline: none;
+    padding: 1em;
+    color: #232323;
+    font-family: "Poppins", sans-serif;
+    font-size: 100%;
+    letter-spacing: 0.01em;
 }
 
-.search-input input {
-    border-radius: 40%;
-    width: 80%;
+input[type="search"]::placeholder {
+    color: #232323;
+}
+
+input[type="search"] {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.search-btn {
+    border: 0;
+    outline: 0;
+    line-height: 0;
+    flex: 0 0 auto;
+    color: #232323;
+    cursor: pointer;
+    position: relative;
+    padding: 1em 1.24em;
+    background-color: rgba(0, 0, 0, 0);
+    font-size: calc(100%+.2em)
+}
+
+@media screen and (max-width: 750px) {
+    .form-container h1 {
+        font-size: 40px;
+    }
+
+    .search-input {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .form-container h1 {
+        font-size: 30px;
+    }
+
+    .search-btn {
+        padding: 1em 1em;
+        padding-right: .5em;
+    }
 }
