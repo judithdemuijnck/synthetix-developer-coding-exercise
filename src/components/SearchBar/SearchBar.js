@@ -10,11 +10,14 @@ export default function SearchBar(props) {
                     type="search"
                     placeholder="Type your question here"
                     aria-label="Type your questions here"
-                    name="search-input"
-                    id="search-input"
+                    required={true}
+                    aria-required={true}
+                    name="search"
                     value={props.searchTerm}
                     onChange={e => props.handleChange(e)} />
-                <button className="search-btn material-symbols-outlined" type="submit">search</button>
+                <button className="search-btn material-symbols-outlined"
+                    type="submit"
+                    aria-label="Click here to search Synthetix knowledge base">search</button>
             </div>
         </form>)
 }
