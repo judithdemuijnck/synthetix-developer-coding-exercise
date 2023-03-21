@@ -11,9 +11,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [articleIds, setArticleIds] = useState([])
-  const [articles, setArticles] = useState([])
-  const { token, initializeSession, verifySession, deleteSession } = useToken()
+  const [articleData, setArticleData] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const { token, initializeSession, verifySession } = useToken()
   const axios = configureAxios(token)
 
   useEffect(() => {
@@ -27,48 +27,40 @@ function App() {
     getSession()
   }, [])
 
-  useEffect(() => {
-    const tempArticles = articleIds?.map(async id => {
-      const response = await axios.post("/article", {
-        userid: 123456,
-        channel: 14,
-        label: id
-      })
-      console.log(response.data)
-      return { answer: response.data.answer, question: response.data.question, category: response.data.category, label: id }
-    })
-    // resolves array of promises
-    Promise.all(tempArticles).then(data => setArticles(data))
-  }, [articleIds])
-
-
   const handleSearchInput = (event) => {
     setSearchTerm(event.target.value)
   }
 
-  const getArticleIds = async (event) => {
+  const getSearchResults = async (event) => {
     event.preventDefault()
+    setIsLoading(true)
     const response = await axios.post("/search", {
       userid: 123456,
       query: searchTerm,
       channel: 14
     })
-    console.log(response.data)
-    setArticleIds(response?.data?.results?.map(result => result.label))
+    setArticleData(response?.data?.results?.map(result => {
+      return { id: result.label, title: result.faq, category: result.taxonomy.category[0] }
+    }))
   }
 
-
-  const displayArticles = articles?.map(article => {
-    console.log(article.label)
+  const allSearchResults = articleData?.map(article => {
     return (
       <ArticleLink
-        key={article.label}
-        title={article.question}
-        summary={article.answer}
+        key={article.id}
+        title={article.title}
+        // summary={article.answer}
         category={article.category}
-        url={`/article/${article.label}`} />
+        url={`/article/${article.id}`} />
     )
   })
+
+  const displaySearchResults = (
+    <section className="articles-wrapper">
+      {isLoading ? <h2>Loading Search Results...</h2> : allSearchResults}
+      {isLoading && allSearchResults.length > 0 ? setIsLoading(false) : ""}
+    </section>
+  )
 
   return (
     <div className="App">
@@ -78,25 +70,12 @@ function App() {
           <Route path="/" element={<SearchBar
             searchTerm={searchTerm}
             handleChange={handleSearchInput}
-            handleSubmit={getArticleIds} />}>
-            <Route path="/search" element={<section className="articles-wrapper">{displayArticles}</section>} />
+            handleSubmit={getSearchResults} />}>
+            <Route path="/search" element={displaySearchResults} />
             <Route path="/article/:articleId" element={<Article axios={axios} />} />
-
           </Route>
         </Routes>
       </BrowserRouter>
-
-      {/* <SearchBar
-        searchTerm={searchTerm}
-        handleChange={handleSearchInput}
-        handleSubmit={getArticleIds} />
-
-      <section className="articles-wrapper">
-        {displayArticles}
-      </section> */}
-
-
-
     </div>
   );
 }
