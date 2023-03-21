@@ -3,10 +3,13 @@ import useToken from './utils/useToken.js';
 import configureAxios from './utils/configAxios';
 import { useEffect, useState } from 'react';
 import SearchBar from './components/SearchBar/SearchBar';
+import Article from './components/Article/Article';
 
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("")
+  const [articleIds, setArticleIds] = useState([])
+  const [articles, setArticles] = useState([])
   const { token, initializeSession, verifySession, deleteSession } = useToken()
   const axios = configureAxios(token)
 
@@ -21,61 +24,59 @@ function App() {
     getSession()
   }, [])
 
+  useEffect(() => {
+    const tempArticles = articleIds.map(async id => {
+      const response = await axios.post("/article", {
+        userid: 123456,
+        channel: 14,
+        label: id
+      })
+      console.log(response.data)
+      return { answer: response.data.answer, question: response.data.question, label: id }
+    })
+    // resolves array of promises
+    Promise.all(tempArticles).then(data => setArticles(data))
+  }, [articleIds])
+
+
   const handleSearchInput = (event) => {
     setSearchTerm(event.target.value)
   }
 
-  const searchArticles = async (event) => {
+  const getArticleIds = async (event) => {
     event.preventDefault()
     const response = await axios.post("/search", {
       userid: 123456,
       query: searchTerm,
       channel: 14
     })
-    console.log(response.data)
+    setArticleIds(response.data.results.map(result => result.label))
   }
 
-  // axios.post("/search", {
-  //   userid: 123456,
-  //   query: "test",
-  //   channel: 14
-  // })
-  //   .then(response => console.log(response))
 
-  axios.post("/article", {
-    userid: 123456,
-    channel: 14,
-    label: "qed554533"
+
+  const displayArticles = articles?.map(article => {
+    return (
+      <Article
+        key={article.label}
+        title={article.question}
+        summary={article.answer}
+        url={`https://help.synthetix.com/article/${article.label}`} />
+    )
   })
-    .then(response => console.log("article", response))
 
   return (
     <div className="App">
       <SearchBar
         searchTerm={searchTerm}
         handleChange={handleSearchInput}
-        handleSubmit={searchArticles} />
+        handleSubmit={getArticleIds} />
+      {displayArticles}
     </div>
   );
 }
 
 export default App;
-
-
-
-
-// make api call & check if anything else is needed
-// create search bar
-// display articles based on search terms
-// link to articles
-
-// components:
-// search bar
-// article
-
-//issues api
-// what channel to use
-// do i need a userid?
 
 
 
