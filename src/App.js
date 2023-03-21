@@ -44,21 +44,22 @@ function App() {
     }))
   }
 
-  const allSearchResults = articleData?.map(article => {
-    return (
-      <ArticleLink
-        key={article.id}
-        title={article.title}
-        // summary={article.answer}
-        category={article.category}
-        url={`/article/${article.id}`} />
-    )
-  })
+  const allSearchResults = articleData ?
+    articleData.map(article => {
+      return (
+        <ArticleLink
+          key={article.id}
+          title={article.title}
+          category={article.category}
+          url={`/article/${article.id}`} />
+      )
+    }) : [<h3 key="no-id">No Search Results found</h3>]
 
   const displaySearchResults = (
     <section className="articles-wrapper">
-      {isLoading ? <h2>Loading Search Results...</h2> : allSearchResults}
-      {isLoading && allSearchResults.length > 0 ? setIsLoading(false) : ""}
+      <h2>Search Results</h2>
+      {isLoading ? <h3>Loading Search Results...</h3> : allSearchResults}
+      {isLoading && allSearchResults?.length > 0 ? setIsLoading(false) : ""}
     </section>
   )
 
@@ -85,16 +86,16 @@ export default App;
 
 
 // ERROR HANDLING AXIOS
-
-// add loading state
+// error route
+//redirect to error routarticle/undefined
 // add checking in if token has expired every few minutes
-// handle what happens when no search items are returned
 
 // testing
 // accessibility
 
+//STYLING
+// ArticleLink!!
 // check which font is unused and get rid
-// error route
+// responsive
 
-//redirect to error routarticle/undefined
 
