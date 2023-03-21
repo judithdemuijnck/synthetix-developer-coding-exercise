@@ -1,0 +1,15 @@
+/* each article nth-child(even) light gray or white
+slight border?
+content in article move from row to column media query phone
+*/
+
+.article-li {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.article-li:nth-child(odd) {
+    background-color: #dfe6ed;
+
+}

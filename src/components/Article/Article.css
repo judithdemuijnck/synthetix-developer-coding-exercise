@@ -1,4 +1,12 @@
-/* each article nth-child(even) light gray or white
-slight border?
-content in article move from row to column media query phone
-*/
+.article-wrapper {
+    margin: 20px auto;
+    min-height: 250px;
+}
+
+.article-wrapper article {
+    height: 100%;
+    border-radius: 12px;
+    padding: 50px 40px;
+    margin: 0 15px;
+    background-color: #dfe6ed;
+}

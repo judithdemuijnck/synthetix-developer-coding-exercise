@@ -1,0 +1,10 @@
+header {
+    text-align: start;
+}
+
+.brand-logo {
+    height: 42px;
+    width: auto;
+    max-width: 217px;
+    padding: 10px 15px;
+}

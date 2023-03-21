@@ -2,8 +2,11 @@ import './App.css';
 import useToken from './utils/useToken.js';
 import configureAxios from './utils/configAxios';
 import { useEffect, useState } from 'react';
+import Header from './components/Header/Header';
 import SearchBar from './components/SearchBar/SearchBar';
+import ArticleLink from './components/ArticleLink/ArticleLink';
 import Article from './components/Article/Article';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 
 function App() {
@@ -50,38 +53,50 @@ function App() {
       query: searchTerm,
       channel: 14
     })
-    setArticleIds(response.data.results.map(result => result.label))
+    console.log(response.data)
+    setArticleIds(response?.data?.results?.map(result => result.label))
   }
-
 
 
   const displayArticles = articles?.map(article => {
     console.log(article.label)
     return (
-      <Article
+      <ArticleLink
         key={article.label}
         title={article.question}
         summary={article.answer}
         category={article.category}
-        url={`https://help.synthetix.com/article/${article.label}`} />
+        url={`/article/${article.label}`} />
     )
   })
 
   return (
     <div className="App">
-      <header>
-        <a href="https://synthetix.com">
-          <img className="brand-logo"
-            alt="Synthetix"
-            src="https://synthetix.com/wp-content/uploads/2021/01/logo_synthetix.png" />
-        </a>
-      </header>
+      <Header />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<SearchBar
+            searchTerm={searchTerm}
+            handleChange={handleSearchInput}
+            handleSubmit={getArticleIds} />}>
+            <Route path="/search" element={<section className="articles-wrapper">{displayArticles}</section>} />
+            <Route path="/article/:articleId" element={<Article axios={axios} />} />
 
-      <SearchBar
+          </Route>
+        </Routes>
+      </BrowserRouter>
+
+      {/* <SearchBar
         searchTerm={searchTerm}
         handleChange={handleSearchInput}
         handleSubmit={getArticleIds} />
-      {displayArticles}
+
+      <section className="articles-wrapper">
+        {displayArticles}
+      </section> */}
+
+
+
     </div>
   );
 }
@@ -100,4 +115,7 @@ export default App;
 // accessibility
 
 // check which font is unused and get rid
+// error route
+
+//redirect to error routarticle/undefined
 

@@ -2,13 +2,11 @@
   text-align: center;
 }
 
-header {
-  text-align: start;
-}
 
-.brand-logo {
-  height: 42px;
-  width: auto;
-  max-width: 217px;
-  padding: 10px 15px;
+
+.articles-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px auto;
 }
