@@ -7,9 +7,9 @@ export default function Article(props) {
 
     return (
         <div className="article-li">
-            <h3>{props.title}</h3>
-            <p>{props.category}</p>
+            <h3><span className="category">{props.category}:</span> {props.title}</h3>
             <Link to={props.url}>View Full Article</Link>
+
         </div>
     )
 }

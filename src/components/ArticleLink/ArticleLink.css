@@ -1,15 +1,34 @@
-/* each article nth-child(even) light gray or white
-slight border?
-content in article move from row to column media query phone
-*/
-
 .article-li {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+    padding: 0 75px;
 }
 
 .article-li:nth-child(odd) {
-    background-color: #dfe6ed;
+    background-color: #dfe6edc4;
+}
 
+.category {
+    font-weight: 100;
+    padding-right: 10px;
+}
+
+@media screen and (max-width: 1200px) {
+    .article-li {
+        padding: 0 50px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .article-li {
+        padding: 0 35px;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .article-li {
+        flex-direction: column;
+        padding-bottom: 20px;
+    }
 }

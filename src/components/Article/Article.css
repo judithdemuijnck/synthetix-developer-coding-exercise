@@ -4,9 +4,13 @@
 }
 
 .article-wrapper article {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100%;
     border-radius: 12px;
     padding: 50px 40px;
     margin: 0 15px;
     background-color: #dfe6ed;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }

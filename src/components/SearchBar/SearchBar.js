@@ -4,12 +4,15 @@ import { Outlet, useNavigate } from "react-router-dom"
 
 export default function SearchBar(props) {
     const navigate = useNavigate()
+
+    const handleSubmit = (event) => {
+        props.getSearchResults(event)
+        navigate("/search")
+    }
+
     return (
         <main>
-            <form onSubmit={e => {
-                props.handleSubmit(e)
-                navigate("/search")
-            }} className="form-container">
+            <form onSubmit={e => handleSubmit(e)} className="form-container">
                 <h1>Search Synthetix FAQ</h1>
                 <div className="search-container">
                     <input
@@ -32,5 +35,3 @@ export default function SearchBar(props) {
             <Outlet />
         </main>)
 }
-
-//move handlesubmit into one function, rename in APP to searchArticles
