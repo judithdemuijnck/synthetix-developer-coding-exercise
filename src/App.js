@@ -36,6 +36,7 @@ function App() {
 
   const getSearchResults = async (event) => {
     event.preventDefault()
+    setSearchResults([])
     setNoResults(false)
     setIsLoading(true)
     try {
@@ -63,6 +64,7 @@ function App() {
           key={article.id}
           title={article.title}
           category={article.category}
+          label={article.id}
           url={`/article/${article.id}`} />
       )
     })
@@ -104,11 +106,3 @@ function App() {
 }
 
 export default App;
-
-
-
-// NEXT
-// testing & accessibility
-// AWS deploy
-
-

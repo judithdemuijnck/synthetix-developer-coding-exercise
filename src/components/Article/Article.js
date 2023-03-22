@@ -18,7 +18,6 @@ export default function Article({ axios }) {
                     label: articleId
                 })
                 setArticle({ title: response.data.question, content: response.data.answer })
-                console.log(article)
             } catch (err) {
                 console.error(err)
                 setNoResult(true)

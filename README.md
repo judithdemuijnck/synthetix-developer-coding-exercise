@@ -1,78 +1,43 @@
+# Synthetix Tech Assessment
 
-## Coding Exercise Assessment
-### Overview
-Congratulations on getting to the technical task stage of the Synthetix recruitment process!
-The purpose of this coding exercise is to evaluate a candidate's skills in developing a simple web application using the API documentation on apisandbox.synthetix.com, as well as their knowledge of a range of web technologies such as HTML, CSS, JavaScript, Vue.js, React, Angular2, PHP, Node.js, relational and non-relational databases, Git, AWS and cloud hosting.  *Phew.*
-## Requirements
-### Full-stack developer roles ONLY
-For this exercise, we'd like you to create a simple web application that allows users to search for articles on our knowledge base, and display the search results.  Use **all** of the following:
--   HTML
--   CSS
--   JavaScript
-...**one** of the these:
--   Vue.js
--   Svelte
--   React
--   Angular2
-...and, finally, at *least* **one** of these:
--   PHP
--   Node.js
--   Databases (relational or non-relational)
-We suggest using the following for version control and deployment:
--   Git/GitHub
--   Cloud Hosting (any cloud provider - extra points for AWS and automated deployment)
-The application should perform the following:
-1.  The application should have a search box where users can enter a query and a search button to initiate the search.
-2.  The application should use the Synthetix API to search for articles based on the user's query.
-3.  The search results should be displayed in a list on the page, with the title, summary, and a link to the article.
-4.  The user should be able to click on the link to view the full article on the Synthetix website.
-5.  The application should have a clean and professional user interface.
-6.  The application should be responsive and work well on desktop and mobile devices.
-You'll find the endpoints needed for this task documented at apisandbox.synthetix.com.
-### Front-end  developer roles ONLY
-For this exercise, we'd like you to create a simple web application that allows users to search for articles on our knowledge base, and display the search results.  Use all of the following:
--   HTML
--   CSS
--   JavaScript
-...and one of the these:
--   Vue.js
--   Svelte
--   React
--   Angular2
-We suggest using the following for version control and deployment:
--   Git/GitHub
--   Cloud Hosting (any cloud provider - extra points for AWS and automated deployment)
-Here is the specification for the app we want you to build:
-1.  The application should have a search box where users can enter a query and a search button to initiate the search.
-2.  The application should use the Synthetix API to search for articles based on the user's query.
-3.  The search results should be displayed in a list on the page, with the title, summary, and a link to the article.
-4.  The user should be able to click on the link to view the full article on the Synthetix website.
-5.  The application should have a clean and professional user interface.
-6.  The application should be responsive and work well on desktop and mobile devices.
-You'll find the endpoints needed for this task documented at apisandbox.synthetix.com.
-## Deliverables
-Please submit the following deliverables:
-1.  A link to your forked repository or a pull request to the original repository.
-2.  An instructions.md file that contains instructions on how to launch the application.
-3.  If you are hosting the code yourself (if possible - helps us!), you should provide a link or instructions on how to access the application.
-## Evaluation Criteria
-Your submission will be evaluated based on the following criteria:
--	The application is simple, reusable, scalable, performs well, and follows best practices.
-- 	The code is well-organised, easy to read, and well-documented.
-- 	The code demonstrates a basic understanding of the selected technologies.
-- 	The instructions.md file is clear and easy to follow.
--	Have you gone over and above the basic specification we have provided to show us something more?  Imagination is a plus at Synthetix.
-## Additional Notes
--   The API Keys required to interact with the apisandbox.synthetix.com API are provided in these instructions, below.
--   You are encouraged to reach out to your Synthetix contact with any questions you may have.  Feel free!
--   Let us know if you want to use an alternative techolofy that we haven't listed above.
--   A session must first be initiated prior to any searches or article requests - you can't call the **search** or **article** API without a valid session.
--   Do not include any node_modules folders, as dependencies will be regenerated when running the code
+## Instructions
 
-### API Keys
+### Node Version
+- This task was completed using Node 16.16.0
 
- - **APPLICATIONKEY**: 7b829f3aeaf04561471b8e258739da3d
- - **CONSUMERKEY**: 9800bcc32393905388563bb784b84720
+### Installing the dependencies
+- To install all dependencies, open this directory in a new shell and run the command
+```
+$ npm install
+```
 
-We know that you have a life outside of a potential employer's technical tasks, so we recommend that don't spend more than a day on this and try and get it completed within 7 days of receipt.  When you are finished, please send us an email with a link to your Git repository and/or hosted application.
-**Good luck, and have fun!  We can't wait to see what you create.**
+### Starting the application
+- To start this application, open this directory in a new shell and run the command
+```
+$ npm start
+```
+
+### Running the tests
+- To run the tests, open this directory in a new shell and run the command
+```
+$ npm test
+```
+
+### Viewing the application
+- The application will be served from http://localhost:3000, open this in your browser
+
+### Known Limitations
+- **Testing:** While writing my tests, I noticed I couldn't mock axios within my getSearchResults function. I eventually traced it back to me creating an instance of axios in my App component, but mocking a different instance in my tests. I tried to export the instance to the tests as well, but since the instantiation is triggered by rendering the App, and we mock the instance *before* the first render, I still couldn't mock the instance. I think this issue is called dependency injection. After quite a while of trying to fix this problem, I acknowledged that this issue is too advanced for me to fix on my own. As I know it is best practice not to change your code in order to make a test pass, I therefore decided to leave my tests incomplete. Maybe we can find a solution together.
+
+- **Summary:** Since there is no summary or preview property in the JSON response, I went back and forth as to how and what I wanted to display as a summary. My initial idea was to convert the answer to a string (using the html-to-text npm package, or maybe regex if I'm feeling adventurous) and then truncate the answer to 100 letters or so (using answer.slice). However, I noticed the format of answer is very inconsistent - sometimess it would be a few p elements, sometimes a div, sometimes an entire design including img and styling, so there was no way of creating a summary/preview that could reliably work for each answer. Since there was no summary on the help.synthetix.com website either, I therefore decided to use the category property instead.
+
+**Rendering HTML straight from the API:** By default, React does not allow to set HTML from code as this exposes the user to risks like cross-site scripting. You can override this by using dangerouslySetInnerHTML, which I have done for this exercise. As the answer format is so inconsistent for each response, I couldn't see any other way to display the answer except rendering the HTML straight from the response. I am, however, aware it is called *dangerously*SetInnerHTML for a reason.
+
+**React and env files:** Due to client-side rendering, there are no secret environment variables - they are embedded during the build, so are visible to the user. I stored the API keys in a .env file, but as mentioned, this does not make the keys secret or inaccessible to the user. Since you had publically exposed the API keys in your README, I assumed this solution would be ok. However, I would usually handle secret keys on the server-side.
+
+### Next Steps
+**Testing:** As I said, I deliberately left my tests incomplete as I couldn't handle the dependency injection. If I had more time and/or someone to work with, this would be my next step.
+
+**Advanced error handling:** I have done basic error handling, but with a bit of guidance would love to learn what else I could do here to make my app more secure.
+
+
