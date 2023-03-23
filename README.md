@@ -10,7 +10,13 @@
 ```
 $ npm install
 ```
-
+### API Keys
+- In the root directory, you will need to create a .env file with the following environment variables:
+```
+REACT_APP_BASE_URL=https://apisandbox.synthetix.com/2.0/external
+REACT_APP_APPLICATIONKEY=<your application key>
+REACT_APP_CONSUMERKEY=<your consumer key>
+```
 ### Starting the application
 - To start this application, open this directory in a new shell and run the command
 ```
